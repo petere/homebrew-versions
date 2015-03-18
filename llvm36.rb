@@ -239,6 +239,10 @@ class Llvm36 < Formula
     system "make", "-C", libcxx_buildpath, "install", *libcxx_make_args
 
     (share/"clang-#{ver}/tools").install Dir["tools/clang/tools/scan-{build,view}"]
+    inreplace share/"clang-#{ver}/tools/scan-build/scan-build", "$RealBin/bin/clang", install_prefix/"bin/clang"
+    ln_s share/"clang-#{ver}/tools/scan-build/scan-build", install_prefix/"bin"
+    ln_s share/"clang-#{ver}/tools/scan-view/scan-view", install_prefix/"bin"
+    (install_prefix/"share/man/man1").install share/"clang-#{ver}/tools/scan-build/scan-build.1"
 
     (lib/"python2.7/site-packages").install "bindings/python/llvm" => "llvm-#{ver}",
                                             clang_buildpath/"bindings/python/clang" => "clang-#{ver}"
